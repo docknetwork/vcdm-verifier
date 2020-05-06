@@ -1,0 +1,41 @@
+{
+  "name": "voting-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "deploy": "rm -rf node_modules/.cache && rimraf out && next build && next export && touch out/.nojekyll && gh-pages -d out --dotfiles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/docknetwork/issuing-verification-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/docknetwork/issuing-verification-app/issues"
+  },
+  "homepage": "https://github.com/docknetwork/issuing-verification-app#readme",
+  "dependencies": {
+    "@docknetwork/sdk": "^0.0.2",
+    "@material-ui/core": "^4.9.0",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/lab": "^4.0.0-alpha.42",
+    "clsx": "^1.0.4",
+    "next": "^9.2.1",
+    "next-page-transitions": "^1.0.0-beta.2",
+    "normalize.css": "^8.0.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "rxjs": "^6.5.4"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.7",
+    "gh-pages": "^2.2.0"
+  }
+}
