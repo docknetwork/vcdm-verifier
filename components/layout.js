@@ -81,10 +81,6 @@ const useStyles = makeStyles(theme => ({
     }),
     marginLeft: 0,
   },
-  rightToolbar: {
-    marginLeft: 'auto',
-    marginRight: -12,
-  },
 }));
 
 const listItems = [
@@ -100,20 +96,10 @@ const listItems = [
   },
 ];
 
-export default function PersistentDrawerLeft({children, connected}) {
+export default function PersistentDrawerLeft({children}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [nodeState, setNodeState] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const accounts = [];
-  const account = null;
-
-  useEffect(() => {
-    setNodeState({
-      connected: false,
-    });
-  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,14 +107,6 @@ export default function PersistentDrawerLeft({children, connected}) {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   return (
@@ -150,47 +128,10 @@ export default function PersistentDrawerLeft({children, connected}) {
           >
             <MenuIcon />
           </IconButton>
-          {nodeState && nodeState.connected ? (
-            <>
-              <Typography variant="h6" noWrap>
-                {nodeState.chain} / {nodeState.nodeName} v{nodeState.nodeVersion}
-              </Typography>
 
-              <section className={classes.rightToolbar}>
-                {account && (
-                  <IconButton color="inherit" aria-label="My Account" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                    <Avatar>
-                      {account.meta.name.substr(0, 1)}
-                    </Avatar>
-                  </IconButton>
-                )}
-
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  {accounts.map((availableAccount, index) => (
-                    <MenuItem onClick={() => {
-                      // setAccount(availableAccount);
-                      handleClose();
-                    }} key={index}>
-                      Use Account: {availableAccount.meta.name}
-                      {account === availableAccount && (
-                        <DoneIcon />
-                      )}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </section>
-            </>
-          ) : (
-            <Typography variant="h6" noWrap>
-              {connected ? 'Connected to node' : 'Connecting to node...'}
-            </Typography>
-          )}
+          <Typography variant="h6" noWrap>
+            Dock VCDM Verifier
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -229,18 +170,9 @@ export default function PersistentDrawerLeft({children, connected}) {
         })}
       >
         <div className={classes.drawerHeader} />
-
-        {connected ? (
-          <Container maxWidth="md">
-            {children}
-            <br />
-            <br />
-          </Container>
-        ) : (
-          <Container maxWidth="md">
-            Please wait...
-          </Container>
-        )}
+        <Container maxWidth="md">
+          {children}
+        </Container>
       </main>
     </div>
   );
