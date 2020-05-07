@@ -7,7 +7,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import Layout from '../components/layout';
-import dock from '@docknetwork/sdk';
 
 const TIMEOUT = 250;
 
@@ -40,23 +39,6 @@ const AppWrapper = ({children}) => {
 class MyApp extends App {
   constructor(props) {
     super(props);
-    this.state = {
-      connected: false,
-    };
-  }
-
-  componentDidMount() {
-    // dock.init('ws://127.0.0.1:9944')
-    //   .then(() => {
-    //     this.setState({
-    //       ...this.state,
-    //       connected: true,
-    //     });
-    //   });
-  }
-
-  componentWillUnmount() {
-    // TODO: disconnect from node
   }
 
   render() {
