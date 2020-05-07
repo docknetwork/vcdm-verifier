@@ -81,10 +81,6 @@ const useStyles = makeStyles(theme => ({
     }),
     marginLeft: 0,
   },
-  rightToolbar: {
-    marginLeft: 'auto',
-    marginRight: -12,
-  },
 }));
 
 const listItems = [
@@ -104,9 +100,6 @@ export default function PersistentDrawerLeft({children}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const accounts = [];
-  const account = null;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -114,14 +107,6 @@ export default function PersistentDrawerLeft({children}) {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   return (
@@ -147,36 +132,6 @@ export default function PersistentDrawerLeft({children}) {
           <Typography variant="h6" noWrap>
             Dock VCDM Verifier
           </Typography>
-
-          <section className={classes.rightToolbar}>
-            {account && (
-              <IconButton color="inherit" aria-label="My Account" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                <Avatar>
-                  {account.meta.name.substr(0, 1)}
-                </Avatar>
-              </IconButton>
-            )}
-
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {accounts.map((availableAccount, index) => (
-                <MenuItem onClick={() => {
-                  // setAccount(availableAccount);
-                  handleClose();
-                }} key={index}>
-                  Use Account: {availableAccount.meta.name}
-                  {account === availableAccount && (
-                    <DoneIcon />
-                  )}
-                </MenuItem>
-              ))}
-            </Menu>
-          </section>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -215,11 +170,8 @@ export default function PersistentDrawerLeft({children}) {
         })}
       >
         <div className={classes.drawerHeader} />
-
         <Container maxWidth="md">
           {children}
-          <br />
-          <br />
         </Container>
       </main>
     </div>
