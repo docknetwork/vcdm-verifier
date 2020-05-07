@@ -1,12 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
+import {
+  Icon,
+  CircularProgress,
+  Grid,
+  Box,
+  Paper,
+  Modal,
+  Typography,
+  Button
+} from '@material-ui/core';
 
-import { Icon, CircularProgress, Grid, Box, Paper, Modal, Typography, Button } from '@material-ui/core';
+import dock from '@docknetwork/sdk';
+import { UniversalResolver } from '@docknetwork/sdk/resolver';
 
-import { makeStyles } from '@material-ui/core/styles';
-
+// Use universal resolver
+const universalResolverUrl = 'https://uniresolver.io';
+const resolver = new UniversalResolver(universalResolverUrl);
 
 function getModalStyle() {
   return {
@@ -17,6 +31,8 @@ function getModalStyle() {
     transform: `translate(-100%, 0)`,
     display: 'flex',
     flexDirection: 'column',
+    overflowX: 'hidden',
+    overflowY: 'auto',
   };
 }
 
@@ -29,17 +45,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+async function signAndVerify(credential) {
+  const verifyResult = await credential.verify(resolver, true, true, { dock });
+  console.log('verifyResult', verifyResult)
+  if (verifyResult.verified) {
+    return verifyResult;
+  } else {
+    throw verifyResult.error.errors;
+  }
+}
+
 // TODO: modal transitoon
 const VerifierModal = ({credential, open, handleClose}) => {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const [isVerified, setIsVerified] = useState();
+  const [verificationErrors, setVerificationErrors] = useState();
 
   console.log('credential', credential);
 
-  setTimeout(() => {
-    setIsVerified(true);
-  }, 3000);
+  async function startVerification(credential) {
+    try {
+      await signAndVerify(credential);
+      setIsVerified(true);
+    } catch (errors) {
+      console.error('Verification failed: ', errors)
+      setVerificationErrors(errors.length ? errors : [errors]);
+      setIsVerified(false);
+    }
+  }
+
+  useEffect(() => {
+    startVerification(credential);
+  }, []);
 
   return (
     <Modal
@@ -51,23 +89,32 @@ const VerifierModal = ({credential, open, handleClose}) => {
       <div style={modalStyle} className={classes.paper}>
         <Box p={3} bgcolor={false ? 'success.main' : 'background.default'}>
           <Typography variant="h6" gutterBottom>
-            Laboratory Lubricant Analyst
+            Alumni Of {credential.subject[0].alumniOf}
           </Typography>
-          <Typography variant="subtitle1">
-            Issued to Charlie C. Starling
+          <Typography noWrap variant="subtitle1">
+            Issued to {credential.subject[0].id}
           </Typography>
         </Box>
         <Box p={3}>
-          <Typography variant="body2" gutterBottom>
-            Issuer: International Council for Machinery Lubrication
+          <Typography variant="body2" noWrap gutterBottom>
+            Issuer: {credential.issuer}
           </Typography>
 
-          <Typography variant="body2" gutterBottom>
-            Issue date: 2020-02-19T15:19:29.821072+00:00
+          <Typography variant="body2" noWrap gutterBottom>
+            Type: {JSON.stringify(credential.type)}
           </Typography>
 
-          <Typography variant="body2" gutterBottom>
-            Expiration date: 11/15/2021
+          <Typography variant="body2" noWrap gutterBottom>
+            Proof type: {credential.proof.type}<br />
+            Proof date: {credential.proof.created}
+          </Typography>
+
+          <Typography variant="body2" noWrap gutterBottom>
+            Issue date: {credential.issuanceDate}
+          </Typography>
+
+          <Typography variant="body2" noWrap gutterBottom>
+            Expiration date: {credential.expirationDate}
           </Typography>
 
           <br />
@@ -86,9 +133,11 @@ const VerifierModal = ({credential, open, handleClose}) => {
                 }} />
               ) : (
                 isVerified === false ? (
-                  <Icon>
-                    <ErrorIcon color="danger" />
-                  </Icon>
+                  <ErrorIcon color="error" style={{
+                    width: '54px',
+                    height: '54px',
+                    transform: 'translate(-5px, 0)'
+                  }} />
                 ) : (
                   <div style={{
                     paddingBottom: '5px',
@@ -117,15 +166,42 @@ const VerifierModal = ({credential, open, handleClose}) => {
               )}
             </Grid>
           </Grid>
-        </Box>
 
-        <Box p={3} style={{
-          marginTop: 'auto'
-        }}>
-          <Button variant="contained" color="primary" fullWidth>
-            Verify another credential
-          </Button>
+          <br />
+
+          {isVerified === false && (
+            verificationErrors.map(error => (
+              <Box
+                bgcolor="error.light"
+                color="error.dark"
+                p={2}>
+                <Typography
+                  component="pre"
+                  variant="body2"
+                  gutterBottom
+                  style={{
+                    whiteSpace: 'pre-wrap',
+                    wordWrap: 'break-word'
+                  }}>
+                  {error.stack || error.name}
+                </Typography>
+              </Box>
+            ))
+          )}
         </Box>
+        {isVerified && (
+          <Box p={3} style={{
+            marginTop: 'auto'
+          }}>
+            <Button
+              endIcon={<ArrowForwardIcon />}
+              variant="contained"
+              onClick={handleClose}
+              fullWidth>
+              Verify another credential
+            </Button>
+          </Box>
+        )}
       </div>
     </Modal>
   );
