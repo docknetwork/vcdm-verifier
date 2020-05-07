@@ -230,17 +230,11 @@ export default function PersistentDrawerLeft({children, connected}) {
       >
         <div className={classes.drawerHeader} />
 
-        {connected ? (
-          <Container maxWidth="md">
-            {children}
-            <br />
-            <br />
-          </Container>
-        ) : (
-          <Container maxWidth="md">
-            Please wait...
-          </Container>
-        )}
+        <Container maxWidth="md">
+          {children}
+          <br />
+          <br />
+        </Container>
       </main>
     </div>
   );
