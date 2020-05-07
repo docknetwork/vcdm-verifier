@@ -13,7 +13,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <title>Dock Client SDK Example</title>
+          <title>Dock VCDM Verifier</title>
         </Head>
         <body>
           <Main />
