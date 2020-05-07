@@ -62,7 +62,7 @@ const sampleCertData = {
   type: [ 'VerifiableCredential', 'AlumniCredential' ],
   issuanceDate: '2020-03-18T19:23:24Z',
   expirationDate: '2021-03-18T19:23:24Z',
-  proof: {
+  proof: { // this proof is invalid and fails verification
     type: 'Sr25519Signature2020',
     created: '2020-05-07T17:33:24Z',
     jws:

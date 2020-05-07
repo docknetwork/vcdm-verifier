@@ -4,9 +4,9 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
-
 import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
+import SideModal from './side-modal';
 
 import {
   Icon,
@@ -18,58 +18,6 @@ import {
   Typography,
   Button
 } from '@material-ui/core';
-
-
-
-
-// TODO: split into side-modal.js
-function getModalStyle() {
-  return {
-    top: `0`,
-    left: `100%`,
-    height: '100vh',
-    outline: 'none',
-    transform: `translate(-100%, 0)`,
-    display: 'flex',
-    flexDirection: 'column',
-    overflowX: 'hidden',
-    overflowY: 'auto',
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-  },
-}));
-
-const SideModal = ({children, open, handleClose}) => {
-  const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
-  return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      closeAfterTransition
-    >
-      <Fade direction="up" in={open}>
-        <div style={modalStyle} className={classes.paper}>
-          {children}
-        </div>
-      </Fade>
-    </Modal>
-  );
-};
-
-
-
-
-
-
-
 
 import dock from '@docknetwork/sdk';
 import { UniversalResolver } from '@docknetwork/sdk/resolver';
@@ -93,9 +41,8 @@ const VerifierModal = ({credential, open, handleClose}) => {
   const [isVerified, setIsVerified] = useState();
   const [verificationErrors, setVerificationErrors] = useState();
 
-  console.log('credential', credential);
-
   async function startVerification(credential) {
+   console.log('startVerification', credential);
     try {
       await signAndVerify(credential);
       setIsVerified(true);
