@@ -46,16 +46,18 @@ const issuerDID = 'did:dock:5FXqofpV7dsuki925U1dSzDvBuQbaci5yWTQGVWRQ7bdQP5p';
 
 // Sample credential data
 const sampleCertData = {
-  '@context':
-   [ 'https://www.w3.org/2018/credentials/v1',
-     'https://www.w3.org/2018/credentials/examples/v1' ],
-  credentialSubject:
-   [ { id: 'did:dock:5EZvZ91igZtG8sUwFAqHvHPyHemJ4D2pbs1HqmgGhucRziaU',
-       alumniOf: 'Example University' } ],
-  credentialStatus:
-   { id:
-      'rev-reg:dock:0x1dde82a39cf9e5b4aa8c967e012e9dccd2d28d9f5e41e5ed26247fcbd18c59ed',
-     type: 'CredentialStatusList2017' },
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://www.w3.org/2018/credentials/examples/v1'
+  ],
+  credentialSubject: [{
+    id: holderDID,
+    alumniOf: 'Example University'
+  }],
+  credentialStatus: {
+    id: 'rev-reg:dock:0x1dde82a39cf9e5b4aa8c967e012e9dccd2d28d9f5e41e5ed26247fcbd18c59ed',
+    type: 'CredentialStatusList2017'
+  },
   id: 'http://example.edu/credentials/1986',
   type: [ 'VerifiableCredential', 'AlumniCredential' ],
   issuanceDate: '2020-03-18T19:23:24Z',
