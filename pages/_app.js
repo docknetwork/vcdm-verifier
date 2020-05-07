@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import App from 'next/app';
-import {MuiThemeProvider} from '@material-ui/core/styles';
 import {PageTransition} from 'next-page-transitions';
 import 'normalize.css';
 
-import materialTheme from '../components/theme';
-import Layout from '../components/layout';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+import Layout from '../components/layout';
 import dock from '@docknetwork/sdk';
 
 const TIMEOUT = 250;
+
+const AppWrapper = ({children}) => {
+  let prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  if (typeof window !== 'undefined') {
+    const localSetting = localStorage.getItem('dark-mode');
+    if (localSetting) {
+      prefersDarkMode = JSON.parse(localSetting);
+    }
+  }
+
+  const theme = useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode],
+  );
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      {children}
+    </MuiThemeProvider>
+  );
+};
 
 class MyApp extends App {
   constructor(props) {
@@ -37,7 +63,7 @@ class MyApp extends App {
     const {Component, pageProps} = this.props;
     return (
       <>
-        <MuiThemeProvider theme={materialTheme}>
+        <AppWrapper>
           <Layout {...this.state}>
             <PageTransition
               timeout={TIMEOUT}
@@ -52,7 +78,7 @@ class MyApp extends App {
               <Component {...pageProps} />
             </PageTransition>
           </Layout>
-        </MuiThemeProvider>
+        </AppWrapper>
         <style jsx global>{`
           .page-transition-enter {
             opacity: 0;
