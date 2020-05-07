@@ -61,22 +61,20 @@ const sampleCertData = {
   id: 'http://example.edu/credentials/1986',
   type: [ 'VerifiableCredential', 'AlumniCredential' ],
   issuanceDate: '2020-03-18T19:23:24Z',
-  expirationDate: '2021-03-18T19:23:24Z'
+  expirationDate: '2021-03-18T19:23:24Z',
+  proof: {
+    type: 'Sr25519Signature2020',
+    created: '2020-05-07T17:33:24Z',
+    jws:
+     'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..rW2_kqbptNvGBBoyCegMztzDDj1u9sQ5rmHKhqSl-bk18--qAkmJfEIRi28Qew_88PcspWU71L_8IiTWkQPCAg',
+    proofPurpose: 'assertionMethod',
+    verificationMethod: `${issuerDID}#keys-1`
+  },
+  issuer: issuerDID
 };
 
 // TODO: support VerifiableCredential.fromjson method
 const sampleCert = fromJSON(sampleCertData);
-// debug proof/issuer, fails verification
-sampleCert.proof = {
-  type: 'Sr25519Signature2020',
-  created: '2020-05-07T17:33:24Z',
-  jws:
-   'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..rW2_kqbptNvGBBoyCegMztzDDj1u9sQ5rmHKhqSl-bk18--qAkmJfEIRi28Qew_88PcspWU71L_8IiTWkQPCAg',
-  proofPurpose: 'assertionMethod',
-  verificationMethod: `${issuerDID}#keys-1`
- };
-sampleCert.issuer = issuerDID;
-
 
 const Index = () => {
   const [open, setOpen] = useState(false);
