@@ -33,6 +33,7 @@ const defaultCert = {
   test: true
 };
 
+// TODO: modal transitoon
 const VerifierModal = ({json, open, handleClose}) => {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);

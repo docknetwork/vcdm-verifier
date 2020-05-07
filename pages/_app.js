@@ -20,13 +20,13 @@ class MyApp extends App {
   }
 
   componentDidMount() {
-    dock.init('ws://127.0.0.1:9944')
-      .then(() => {
-        this.setState({
-          ...this.state,
-          connected: true,
-        });
-      });
+    // dock.init('ws://127.0.0.1:9944')
+    //   .then(() => {
+    //     this.setState({
+    //       ...this.state,
+    //       connected: true,
+    //     });
+    //   });
   }
 
   componentWillUnmount() {
