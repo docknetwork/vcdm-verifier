@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
 import VerifierModal from '../components/verifier-modal';
@@ -109,41 +110,41 @@ const Index = () => {
   return (
     <>
       <Typography variant="h5">
-        Enter some JSON and verify it
+        Drop a Verifiable Credential to verify it
       </Typography>
 
       <br />
       <br />
 
       <form onSubmit={handleVerify}>
-        <TextField
-          name="json"
-          label="JSON Credential"
-          variant="outlined"
-          placeholder="JSON Object..."
-          onChange={handleChange}
-          fullWidth
-          required
-          multiline
-          rowsMax={16}
-          rows={4}
-          value={state.json}
+        <DropzoneArea
+            acceptedFiles={[".json"]}
+            filesLimit={1}
+            dropzoneText={""}
+            // onChange={handleChange(file)}
+            onDrop={async ([file]) => {
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                var contents = JSON.parse(e.target.result);
+                console.log(contents);
+                setState({json: contents, object: null});
+                handleVerify(e)
+              };
+              reader.readAsText(file);
+            }}
+            showPreviews={false}
+            showPreviewsInDropzone={false}
+            showAlerts={false}
+
+
+
         />
 
         <br />
         <br />
-
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={!state.object}
-        >
-          Verify
-        </Button>
       </form>
 
-      <VerifierModal {...{open, handleClose, credential: open && state.object}} />
+      <VerifierModal {...{open, handleClose, credential: open && state.json}} />
     </>
   );
 };
