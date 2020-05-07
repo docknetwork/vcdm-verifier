@@ -1,39 +1,70 @@
 import React, {useState} from 'react';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 
+import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
 import VerifierModal from '../components/verifier-modal';
 
+function fromJSON(json) {
+  const credentialId = 'http://example.edu/credentials/1986';
+  const cert = new VerifiableCredential(credentialId); // TODO: remove temp id when we support create with no ID
 
-import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
+  cert.id = json.id; // TODO: use setId
+
+  json.type.forEach(type => {
+    cert.addType(type);
+  });
+
+  json.credentialSubject.forEach(subject => {
+    cert.addSubject(subject);
+  });
+
+  json['@context'].forEach(context => {
+    cert.addContext(context);
+  });
+
+  cert.setStatus(json.credentialStatus);
+  cert.setIssuanceDate(json.issuanceDate);
+  cert.setExpirationDate(json.expirationDate);
+
+  if (json.proof) {
+    cert.proof = json.proof; // TODO: setProof
+  }
+
+  if (json.issuer) {
+    cert.issuer = json.issuer; // TODO: setIssuer
+  }
+
+  return cert;
+}
 
 const holderDID = 'did:dock:5FXqofpV7dsuki925U1dSzDvBuQbaci5yWTQGVWRQ7bdQP5p';
 const issuerDID = 'did:dock:5FXqofpV7dsuki925U1dSzDvBuQbaci5yWTQGVWRQ7bdQP5p';
 
 // Sample credential data
-const credentialId = 'http://example.edu/credentials/1986';
-const credentialContext = 'https://www.w3.org/2018/credentials/examples/v1';
-const credentialType = 'AlumniCredential';
-const credentialSubject = { id: holderDID, alumniOf: 'Example University' };
-const credentialStatus = {
-  id: 'rev-reg:dock:0x1dde82a39cf9e5b4aa8c967e012e9dccd2d28d9f5e41e5ed26247fcbd18c59ed',
-  type: 'CredentialStatusList2017'
+const sampleCertData = {
+  '@context':
+   [ 'https://www.w3.org/2018/credentials/v1',
+     'https://www.w3.org/2018/credentials/examples/v1' ],
+  credentialSubject:
+   [ { id: 'did:dock:5EZvZ91igZtG8sUwFAqHvHPyHemJ4D2pbs1HqmgGhucRziaU',
+       alumniOf: 'Example University' } ],
+  credentialStatus:
+   { id:
+      'rev-reg:dock:0x1dde82a39cf9e5b4aa8c967e012e9dccd2d28d9f5e41e5ed26247fcbd18c59ed',
+     type: 'CredentialStatusList2017' },
+  id: 'http://example.edu/credentials/1986',
+  type: [ 'VerifiableCredential', 'AlumniCredential' ],
+  issuanceDate: '2020-03-18T19:23:24Z',
+  expirationDate: '2021-03-18T19:23:24Z'
 };
-const credentialIssuanceDate = '2020-03-18T19:23:24Z';
-const credentialExpirationDate = '2021-03-18T19:23:24Z';
 
-// Sample cert (logic debug)
-const sampleCert = new VerifiableCredential(credentialId);
-sampleCert.addContext(credentialContext);
-sampleCert.addType(credentialType);
-sampleCert.addSubject(credentialSubject);
-sampleCert.setStatus(credentialStatus);
-sampleCert.setIssuanceDate(credentialIssuanceDate);
-sampleCert.setExpirationDate(credentialExpirationDate);
+// TODO: support VerifiableCredential.fromjson method
+const sampleCert = fromJSON(sampleCertData);
+// debug proof/issuer, fails verification
 sampleCert.proof = {
   type: 'Sr25519Signature2020',
   created: '2020-05-07T17:33:24Z',
@@ -44,30 +75,11 @@ sampleCert.proof = {
  };
 sampleCert.issuer = issuerDID;
 
-// TODO: support VerifiableCredential.fromjson method
-// { '@context':
-//    [ 'https://www.w3.org/2018/credentials/v1',
-//      'https://www.w3.org/2018/credentials/examples/v1' ],
-//   credentialSubject:
-//    [ { id: 'did:dock:5EZvZ91igZtG8sUwFAqHvHPyHemJ4D2pbs1HqmgGhucRziaU',
-//        alumniOf: 'Example University' } ],
-//   credentialStatus:
-//    { id:
-//       'rev-reg:dock:0x1dde82a39cf9e5b4aa8c967e012e9dccd2d28d9f5e41e5ed26247fcbd18c59ed',
-//      type: 'CredentialStatusList2017' },
-//   id: 'http://example.edu/credentials/1986',
-//   type: [ 'VerifiableCredential', 'AlumniCredential' ],
-//   issuanceDate: '2020-03-18T19:23:24Z',
-//   expirationDate: '2021-03-18T19:23:24Z' }
-
-
-// Default certificate data (logic debug)
-const defaultCert = sampleCert.toJSON();
 
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({
-    json: JSON.stringify(defaultCert, null, 2),
+    json: JSON.stringify(sampleCertData, null, 2),
     object: sampleCert
   });
   const handleChange = event => {
@@ -76,8 +88,7 @@ const Index = () => {
     };
 
     try {
-      newState['object'] = JSON.parse(event.target.value);
-      newState['object'] = sampleCert; // TODO: convert the json into VerifiableCredential object
+      newState['object'] = fromJSON(JSON.parse(event.target.value));
     } catch (e) {
       newState['object'] = null;
     }
@@ -132,9 +143,7 @@ const Index = () => {
         </Button>
       </form>
 
-      {open && (
-        <VerifierModal {...{open, handleClose, credential: state.object}} />
-      )}
+      <VerifierModal {...{open, handleClose, credential: open && state.object}} />
     </>
   );
 };
