@@ -18,7 +18,7 @@ function fromJSON(json) {
     cert.addType(type);
   });
 
-  json.credentialSubject.forEach(subject => {
+  (json.credentialSubject || json.subject).forEach(subject => {
     cert.addSubject(subject);
   });
 
@@ -26,7 +26,7 @@ function fromJSON(json) {
     cert.addContext(context);
   });
 
-  cert.setStatus(json.credentialStatus);
+  cert.setStatus(json.credentialStatus || json.status);
   cert.setIssuanceDate(json.issuanceDate);
   cert.setExpirationDate(json.expirationDate);
 

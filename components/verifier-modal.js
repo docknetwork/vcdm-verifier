@@ -4,8 +4,6 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
-import Slide from '@material-ui/core/Slide';
-import Fade from '@material-ui/core/Fade';
 import SideModal from './side-modal';
 
 import {
@@ -14,7 +12,6 @@ import {
   Grid,
   Box,
   Paper,
-  Modal,
   Typography,
   Button
 } from '@material-ui/core';
