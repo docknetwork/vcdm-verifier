@@ -92,6 +92,7 @@ const Index = () => {
                   var contents = JSON.parse(e.target.result);
                   console.log(contents);
                   setState({json: contents, text: JSON.stringify(contents, null, 2)});
+                  handleVerify(e)
                 };
                 reader.readAsText(file);
               }}
