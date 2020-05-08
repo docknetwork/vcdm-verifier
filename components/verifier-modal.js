@@ -18,13 +18,14 @@ import {
 
 import dock from '@docknetwork/sdk';
 import { UniversalResolver } from '@docknetwork/sdk/resolver';
+import {verifyCredential} from "@docknetwork/sdk/utils/vc";
 
 // Use universal resolver
 const universalResolverUrl = 'https://uniresolver.io';
 const resolver = new UniversalResolver(universalResolverUrl);
 
 async function signAndVerify(credential) {
-  const verifyResult = await credential.verify(resolver, true, true, { dock });
+  const verifyResult = await verifyCredential(credential, resolver, true, true, { dock });
   console.log('verifyResult', verifyResult)
   if (verifyResult.verified) {
     return verifyResult;
@@ -64,10 +65,10 @@ const VerifierModal = ({credential, open, handleClose}) => {
         <>
           <Box p={3} bgcolor={false ? 'success.main' : 'background.default'}>
             <Typography variant="h6" gutterBottom>
-              Alumni Of {credential.subject[0].alumniOf}
+              Alumni Of {credential.credentialSubject.alumniOf}
             </Typography>
             <Typography noWrap variant="subtitle1">
-              Issued to {credential.subject[0].id}
+              Issued to {credential.credentialSubject.id}
             </Typography>
           </Box>
           <Box p={3}>
@@ -89,7 +90,7 @@ const VerifierModal = ({credential, open, handleClose}) => {
             </Typography>
 
             <Typography variant="body2" noWrap gutterBottom>
-              Expiration date: {credential.expirationDate}
+              Expiration date: {credential.expirationDate || "N/A"}
             </Typography>
 
             <br />

@@ -27,6 +27,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.42",
     "clsx": "^1.0.4",
+    "material-ui-dropzone": "^3.0.0",
     "next": "^9.2.1",
     "next-page-transitions": "^1.0.0-beta.2",
     "normalize.css": "^8.0.1",
