@@ -19,6 +19,9 @@ const AppWrapper = ({children}) => {
         type: prefersDarkMode ? 'dark' : 'light',
         primary: {
           main: '#2074bd'
+        },
+        background: {
+          default: '#f9fafb',
         }
       };
 
