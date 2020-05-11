@@ -14,12 +14,56 @@ const AppWrapper = ({children}) => {
   const [prefersDarkMode, setDarkMode] = useState(false);
 
   const theme = useMemo(
-    () =>
-      createMuiTheme({
-        palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+    () => {
+      const palette = {
+        type: prefersDarkMode ? 'dark' : 'light',
+        primary: {
+          main: '#2074bd'
         },
-      }),
+      };
+
+      if (!prefersDarkMode) {
+        palette.background = {
+          default: '#f9fafb'
+        };
+      }
+
+      const bodyTypography = {
+        fontFamily: "'Nunito Sans', sans-serif",
+      };
+
+      const typography = {
+        fontFamily: "Montserrat, sans-serif",
+        fontSize: 14,
+        fontWeightLight: 300,
+        fontWeightRegular: 400,
+        fontWeightMedium: 500,
+        fontWeightBold: 700,
+        color: 'rgb(8, 0, 34)',
+        button: bodyTypography,
+        subtitle1: bodyTypography,
+        subtitle2: bodyTypography,
+        body1: bodyTypography,
+        body2: {
+          ...bodyTypography,
+          fontSize: 16,
+        },
+        h5: bodyTypography,
+        h6: {
+          fontWeight: 500,
+        },
+        h1: {
+          fontSize: 60,
+          fontWeight: 700,
+          lineHeight: '60px'
+        }
+      };
+
+      return createMuiTheme({
+        typography,
+        palette,
+      });
+    },
     [prefersDarkMode],
   );
 

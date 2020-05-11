@@ -26,12 +26,22 @@ import DoneIcon from '@material-ui/icons/Done';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 
+import dockLogo from '../assets/logo.svg';
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
+  logo: {
+    marginTop: '10px'
+  },
+  appBar: {
+    height: '70px',
+    boxShadow: '0 3px 12px -3px rgba(0, 0, 0, 0.09)',
+  },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: 'auto',
+    marginTop: '5px',
   },
   hide: {
     display: 'none',
@@ -50,8 +60,12 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar color="inherit">
+      <AppBar color="inherit" className={classes.appBar}>
         <Toolbar>
+          <a href="https://dock.io" target="_blank" rel="noreferrer noopener">
+            <img src={dockLogo} className={classes.logo} />
+          </a>
+
           <IconButton
             color="inherit"
             aria-label="toggle dark mode"
@@ -65,10 +79,6 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
               <Brightness4Icon />
             )}
           </IconButton>
-
-          <Typography variant="h6" noWrap>
-            Dock VCDM Verifier
-          </Typography>
         </Toolbar>
       </AppBar>
       <main className={clsx(classes.content)}>

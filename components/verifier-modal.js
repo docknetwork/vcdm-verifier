@@ -33,6 +33,19 @@ async function signAndVerify(credential) {
   }
 }
 
+function getSubject(credential) {
+  let subject = 'No Subject';
+
+  const subjectKeys = Object.keys(credential.credentialSubject);
+  subjectKeys.splice(subjectKeys.indexOf('id'), 1);
+
+  if (subjectKeys.length) {
+    subject = credential.credentialSubject[subjectKeys[0]];
+  }
+
+  return subject;
+}
+
 const VerifierModal = ({credential, handleClose}) => {
   const [isVerified, setIsVerified] = useState();
   const [verificationErrors, setVerificationErrors] = useState();
@@ -63,7 +76,7 @@ const VerifierModal = ({credential, handleClose}) => {
         <>
           <Box p={3} bgcolor={false ? 'success.main' : 'background.default'}>
             <Typography variant="h6" gutterBottom>
-              Alumni Of {credential.credentialSubject.alumniOf}
+              {getSubject(credential)}
             </Typography>
             <Typography noWrap variant="subtitle1">
               Issued to {credential.credentialSubject.id}
