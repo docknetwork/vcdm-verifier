@@ -74,6 +74,7 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
       <main className={clsx(classes.content)}>
         <div className={classes.drawerHeader} />
         {children}
+        <br />
       </main>
     </div>
   );
