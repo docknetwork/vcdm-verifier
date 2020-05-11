@@ -36,11 +36,13 @@ async function signAndVerify(credential) {
 function getSubject(credential) {
   let subject = 'No Subject';
 
-  const subjectKeys = Object.keys(credential.credentialSubject);
-  subjectKeys.splice(subjectKeys.indexOf('id'), 1);
+  if (credential.credentialSubject) {
+    const subjectKeys = Object.keys(credential.credentialSubject);
+    subjectKeys.splice(subjectKeys.indexOf('id'), 1);
 
-  if (subjectKeys.length) {
-    subject = credential.credentialSubject[subjectKeys[0]];
+    if (subjectKeys.length) {
+      subject = credential.credentialSubject[subjectKeys[0]];
+    }
   }
 
   return subject;
@@ -79,26 +81,34 @@ const VerifierModal = ({credential, handleClose}) => {
               {getSubject(credential)}
             </Typography>
             <Typography noWrap variant="subtitle1">
-              Issued to {credential.credentialSubject.id}
+              Issued to {credential.credentialSubject && credential.credentialSubject.id}
             </Typography>
           </Box>
           <Box p={3}>
-            <Typography variant="body2" noWrap gutterBottom>
-              Issuer: {credential.issuer}
-            </Typography>
+            {credential.issuer && (
+              <Typography variant="body2" noWrap gutterBottom>
+                Issuer: {credential.issuer}
+              </Typography>
+            )}
 
-            <Typography variant="body2" noWrap gutterBottom>
-              Type: {JSON.stringify(credential.type)}
-            </Typography>
+            {credential.type && (
+              <Typography variant="body2" noWrap gutterBottom>
+                Type: {JSON.stringify(credential.type)}
+              </Typography>
+            )}
 
-            <Typography variant="body2" noWrap gutterBottom>
-              Proof type: {credential.proof.type}<br />
-              Proof date: {credential.proof.created}
-            </Typography>
+            {credential.proof && (
+              <Typography variant="body2" noWrap gutterBottom>
+                Proof type: {credential.proof.type}<br />
+                Proof date: {credential.proof.created}
+              </Typography>
+            )}
 
-            <Typography variant="body2" noWrap gutterBottom>
-              Issue date: {credential.issuanceDate}
-            </Typography>
+            {credential.issuanceDate && (
+              <Typography variant="body2" noWrap gutterBottom>
+                Issue date: {credential.issuanceDate}
+              </Typography>
+            )}
 
             <Typography variant="body2" noWrap gutterBottom>
               Expiration date: {credential.expirationDate || "N/A"}
