@@ -33,7 +33,6 @@ async function signAndVerify(credential) {
   }
 }
 
-// TODO: modal transitoon
 const VerifierModal = ({credential, handleClose}) => {
   const [isVerified, setIsVerified] = useState();
   const [verificationErrors, setVerificationErrors] = useState();
