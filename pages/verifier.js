@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -8,42 +9,65 @@ import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
 import VerifierModal from '../components/verifier-modal';
 import SideModal from '../components/side-modal';
 import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles({
-  container: {
+// import heroSVG from '../assets/hero.svg';
+
+    // height: 740px;
+    // background-image: url(https://uploads-ssl.webflow.com/5e97941…/5e97d8c…_hero-group.svg);
+    // background-position: 100% 100%;
+    // background-size: contain;
+    // background-repeat: no-repeat;
+    // background-attachment: scroll;
+
+const drawerWidth = 400;
+
+const useStyles = makeStyles((theme) => ({
+  content: {
     justifyContent: 'center',
-    height: '0',
-    position:'relative',
-    width: '90%'
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginRight: 0,
+    paddingTop: '100px',
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: drawerWidth,
   },
   dropzone: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    margin: 'auto',
-    height: '4em',
+    transition: 'all 0.2s ease-in-out',
+    background: theme.palette.background.paper,
+    height: '400px',
     width: '100%',
   },
   textInput: {
     border: 0,
     borderRadius: 3,
-    color: 'black',
-    width: '80%',
-    position: 'absolute',
-    top: '10em',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    color: 'black'
   },
   dropzoneText: {
-    padding: '5%',
+    padding: '2.5% 5%',
     fontSize: 12
   },
   submitButton: {
     float: 'right'
-  }
-});
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+}));
 
 const exampleCredential = {
   "@context": [
@@ -98,14 +122,41 @@ const Index = () => {
     setOpen(true);
   }
 
+  function handleTextareaClick(e) {
+    e.stopPropagation();
+  }
+
+  const DropzoneContent = (
+    <>
+      <u>Choose JSON file</u> (you can also drag & drop your file).
+      <br />
+      <TextField
+          name="json"
+          onChange={handleChange}
+          onClick={handleTextareaClick}
+          fullWidth
+          required
+          multiline={true}
+          rowsMax={10}
+          rows={1}
+          value={state.text}
+          className={classes.textInput}
+          placeholder={"Credential URL or JSON"}
+      />
+    </>
+  );
+
   return (
     <>
-      <form onSubmit={handleVerify}>
-        <div className={classes.container}>
+      <div className={clsx(classes.content, {
+        [classes.contentShift]: open,
+      })}>
+        <Container maxWidth="md">
+          <form onSubmit={handleVerify}>
           <DropzoneArea
-              acceptedFiles={[".json"]}
+             acceptedFiles={['application/json']}
               filesLimit={1}
-              dropzoneText={<><u>Choose JSON file</u> (you can also drag & drop your file).<br/></>}
+              dropzoneText={DropzoneContent}
               dropzoneParagraphClass={classes.dropzoneText}
               onDrop={async ([file]) => {
                 var reader = new FileReader();
@@ -119,25 +170,16 @@ const Index = () => {
               }}
               showPreviews={false}
               showPreviewsInDropzone={false}
-              showAlerts={false}
+              showAlerts={true}
               rows={1}
               dropzoneClass={classes.dropzone}
-          />
+          >
+
+
+
+          </DropzoneArea>
 
           <br />
-
-          <TextField
-              name="json"
-              onChange={handleChange}
-              fullWidth
-              required
-              multiline={true}
-              rowsMax={10}
-              rows={1}
-              value={state.text}
-              className={classes.textInput}
-              placeholder={"Credential URL or JSON"}
-          />
 
           <Button
             className={classes.submitButton}
@@ -148,13 +190,21 @@ const Index = () => {
             Verify
           </Button>
           <br />
+
+        </form>
+        </Container>
         </div>
-
-
-      </form>
-      <SideModal {...{open, handleClose}}>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="right"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
         <VerifierModal {...{handleClose, credential: open && state.json}} />
-      </SideModal>
+      </Drawer>
     </>
   );
 };
