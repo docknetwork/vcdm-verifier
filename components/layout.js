@@ -18,7 +18,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -74,9 +73,7 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
       </AppBar>
       <main className={clsx(classes.content)}>
         <div className={classes.drawerHeader} />
-        <Container maxWidth="md">
-          {children}
-        </Container>
+        {children}
       </main>
     </div>
   );

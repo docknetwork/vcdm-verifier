@@ -6,7 +6,9 @@ import { DropzoneArea } from 'material-ui-dropzone';
 
 import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
 import VerifierModal from '../components/verifier-modal';
+import SideModal from '../components/side-modal';
 import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles({
   container: {
@@ -43,18 +45,38 @@ const useStyles = makeStyles({
   }
 });
 
-
-const holderDID = 'did:dock:5FXqofpV7dsuki925U1dSzDvBuQbaci5yWTQGVWRQ7bdQP5p';
-const issuerDID = 'did:dock:5FXqofpV7dsuki925U1dSzDvBuQbaci5yWTQGVWRQ7bdQP5p';
-
+const exampleCredential = {
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1"
+  ],
+  "id": "https://example.com/credentials/1872",
+  "type": [
+    "VerifiableCredential",
+    "AlumniCredential"
+  ],
+  "issuanceDate": "2020-04-15T09:05:35Z",
+  "credentialSubject": {
+    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+    "alumniOf": "Example University"
+  },
+  "issuer": "https://gist.githubusercontent.com/lovesh/312d407e3a16be0e7d5e43169e824958/raw",
+  "proof": {
+    "type": "EcdsaSecp256k1Signature2019",
+    "created": "2020-04-15T09:22:48Z",
+    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdfQ..MEQCIHiIBMBw1szt6Y_ksb0rRiEZuAkG3BNXdt6UC_LpFlOfAiAkQktaxOPtfuiTXMsWRv92qvwFubs4Sn5hH4E_arwohA",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "https://gist.githubusercontent.com/lovesh/67bdfd354cfaf4fb853df4d6713f4610/raw"
+  }
+};
 
 
 const Index = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({
-    json: null,
-    text: null
+    json: exampleCredential,
+    text: JSON.stringify(exampleCredential, null, 2)
   });
   const handleChange = event => {
     // TODO: if it is a URL fetch it first.
@@ -78,7 +100,6 @@ const Index = () => {
 
   return (
     <>
-
       <form onSubmit={handleVerify}>
         <div className={classes.container}>
           <DropzoneArea
@@ -131,9 +152,9 @@ const Index = () => {
 
 
       </form>
-
-
-      <VerifierModal {...{open, handleClose, credential: open && state.json}} />
+      <SideModal {...{open, handleClose}}>
+        <VerifierModal {...{handleClose, credential: open && state.json}} />
+      </SideModal>
     </>
   );
 };
