@@ -95,6 +95,10 @@ const Index = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setState({
+      json: null,
+      text: '',
+    });
   };
 
   function handleVerify(e) {
@@ -122,7 +126,9 @@ const Index = () => {
         rows={1}
         value={state.text}
         className={classes.textInput}
-        placeholder="Credential URL or JSON"
+        label="Credential URL or JSON"
+        placeholder="{ ... }"
+        variant="filled"
       />
     </>
   );
