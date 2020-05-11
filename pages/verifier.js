@@ -5,11 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { DropzoneArea } from 'material-ui-dropzone';
 
-import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
 import VerifierModal from '../components/verifier-modal';
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Container from '@material-ui/core/Container';
+import fetch from 'isomorphic-unfetch'
+
 
 const drawerWidth = 400;
 
@@ -62,6 +63,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Return true if the given string is a valid URI
+ * @param string - String to test
+ * @returns {boolean} - Whether the given string is a valid URI or not.
+ */
+function isUri(string){
+  if (!isString(string)){
+    return false
+  }
+  const pattern = new RegExp('^\\w+:\\/?\\/?[^\\s]+$');
+  return pattern.test(string)
+}
+
+/**
+ * Return true if the given value is a string.
+ * @param value
+ * @returns {boolean}
+ */
+export function isString(value) {
+  return typeof value === 'string' || value instanceof String;
+}
+
+
 const Index = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -70,16 +94,23 @@ const Index = () => {
     text: ''
   });
 
-  const handleChange = event => {
-    // TODO: if it is a URL fetch it first.
-
+  const handleChange = async event => {
     let parsedJSON;
     const text = event.target.value;
     if (text) {
-      try {
-        parsedJSON = JSON.parse(text);
-      } catch (e) {
-        // TODO: show error that json is invalid
+      if (isUri(text)) {
+        try {
+          const response = await fetch(text);
+          parsedJSON = await response.json();
+        } catch (e) {
+          // TODO: show error that URL is invalid
+        }
+      } else {
+        try {
+          parsedJSON = JSON.parse(text);
+        } catch (e) {
+          // TODO: show error that json is invalid
+        }
       }
     } else {
       setOpen(false);
@@ -92,7 +123,6 @@ const Index = () => {
 
     setState(newState);
   };
-
   const handleClose = () => {
     setOpen(false);
     setState({
