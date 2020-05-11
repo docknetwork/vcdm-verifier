@@ -17,6 +17,9 @@ const AppWrapper = ({children}) => {
     () => {
       const palette = {
         type: prefersDarkMode ? 'dark' : 'light',
+        primary: {
+          main: '#2074bd'
+        }
       };
 
       const bodyTypography = {

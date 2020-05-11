@@ -145,6 +145,8 @@ const Index = () => {
             </Typography>
           </center>
 
+          <br />
+
           <form onSubmit={handleVerify}>
             <DropzoneArea
                acceptedFiles={['application/json']}
