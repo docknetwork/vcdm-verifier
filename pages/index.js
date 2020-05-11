@@ -139,9 +139,11 @@ const Index = () => {
         [classes.contentShift]: open,
       })}>
         <Container maxWidth="md">
-          <Typography gutterBottom>
-            Dock Universal VCDM Verifier
-          </Typography>
+          <center>
+            <Typography variant="h1" gutterBottom>
+              Universal VCDM Verifier
+            </Typography>
+          </center>
 
           <form onSubmit={handleVerify}>
             <DropzoneArea
