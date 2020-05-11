@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dropzone: {
     transition: 'all 0.2s ease-in-out',
-    background: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper,
     minHeight: '250px',
     width: '100%',
   },
