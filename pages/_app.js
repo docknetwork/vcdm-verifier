@@ -20,10 +20,13 @@ const AppWrapper = ({children}) => {
         primary: {
           main: '#2074bd'
         },
-        background: {
-          default: '#f9fafb',
-        }
       };
+
+      if (!prefersDarkMode) {
+        palette.background = {
+          default: '#f9fafb'
+        };
+      }
 
       const bodyTypography = {
         fontFamily: "'Nunito Sans', sans-serif",

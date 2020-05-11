@@ -37,7 +37,8 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 3px 12px -3px rgba(0, 0, 0, 0.09)',
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: 'auto',
+    marginTop: '5px',
   },
   hide: {
     display: 'none',
@@ -58,7 +59,11 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
       <CssBaseline />
       <AppBar color="inherit" className={classes.appBar}>
         <Toolbar>
-          {/*<IconButton
+          <a href="https://dock.io" target="_blank" rel="noreferrer noopener">
+            <img src={dockLogo} />
+          </a>
+
+          <IconButton
             color="inherit"
             aria-label="toggle dark mode"
             onClick={toggleDarkMode}
@@ -70,9 +75,7 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
             ) : (
               <Brightness4Icon />
             )}
-          </IconButton>*/}
-
-          <img src={dockLogo} />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <main className={clsx(classes.content)}>
