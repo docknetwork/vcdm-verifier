@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
+  logo: {
+    marginTop: '10px'
+  },
   appBar: {
     height: '70px',
     boxShadow: '0 3px 12px -3px rgba(0, 0, 0, 0.09)',
@@ -60,7 +63,7 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
       <AppBar color="inherit" className={classes.appBar}>
         <Toolbar>
           <a href="https://dock.io" target="_blank" rel="noreferrer noopener">
-            <img src={dockLogo} />
+            <img src={dockLogo} className={classes.logo} />
           </a>
 
           <IconButton
