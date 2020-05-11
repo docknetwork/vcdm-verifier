@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import App from 'next/app';
 import {PageTransition} from 'next-page-transitions';
 import 'normalize.css';
@@ -11,13 +11,7 @@ import Layout from '../components/layout';
 const TIMEOUT = 250;
 
 const AppWrapper = ({children}) => {
-  let prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  if (typeof window !== 'undefined') {
-    const localSetting = localStorage.getItem('dark-mode');
-    if (localSetting) {
-      prefersDarkMode = JSON.parse(localSetting);
-    }
-  }
+  const [prefersDarkMode, setDarkMode] = useState(false);
 
   const theme = useMemo(
     () =>
@@ -29,9 +23,24 @@ const AppWrapper = ({children}) => {
     [prefersDarkMode],
   );
 
+  let localSetting = false;
+  if (typeof window !== 'undefined') {
+    if (localStorage.getItem('dark-mode')) {
+      localSetting = localStorage.getItem('dark-mode') === 'true';
+      // setDarkMode(localSetting);
+    }
+  }
+
+  function toggleDarkMode() {
+    localStorage.setItem('dark-mode', prefersDarkMode ? 'false' : 'true');
+    setDarkMode(!prefersDarkMode);
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
-      {children}
+      <Layout darkMode={prefersDarkMode || localSetting} toggleDarkMode={toggleDarkMode}>
+        {children}
+      </Layout>
     </MuiThemeProvider>
   );
 };
@@ -46,20 +55,18 @@ class MyApp extends App {
     return (
       <>
         <AppWrapper>
-          <Layout {...this.state}>
-            <PageTransition
-              timeout={TIMEOUT}
-              classNames="page-transition"
-              loadingDelay={250}
-              loadingTimeout={{
-                enter: TIMEOUT,
-                exit: 0,
-              }}
-              loadingClassNames="loading-indicator"
-            >
-              <Component {...pageProps} />
-            </PageTransition>
-          </Layout>
+          <PageTransition
+            timeout={TIMEOUT}
+            classNames="page-transition"
+            loadingDelay={250}
+            loadingTimeout={{
+              enter: TIMEOUT,
+              exit: 0,
+            }}
+            loadingClassNames="loading-indicator"
+          >
+            <Component {...pageProps} />
+          </PageTransition>
         </AppWrapper>
         <style jsx global>{`
           .page-transition-enter {

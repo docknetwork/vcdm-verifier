@@ -4,7 +4,6 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
-import SideModal from './side-modal';
 
 import {
   Icon,
@@ -34,8 +33,7 @@ async function signAndVerify(credential) {
   }
 }
 
-// TODO: modal transitoon
-const VerifierModal = ({credential, open, handleClose}) => {
+const VerifierModal = ({credential, handleClose}) => {
   const [isVerified, setIsVerified] = useState();
   const [verificationErrors, setVerificationErrors] = useState();
 
@@ -60,7 +58,7 @@ const VerifierModal = ({credential, open, handleClose}) => {
   }, [credential]);
 
   return (
-    <SideModal {...{open, handleClose}}>
+    <>
       {credential && (
         <>
           <Box p={3} bgcolor={false ? 'success.main' : 'background.default'}>
@@ -180,7 +178,7 @@ const VerifierModal = ({credential, open, handleClose}) => {
           )}
         </>
       )}
-    </SideModal>
+    </>
   );
 };
 
