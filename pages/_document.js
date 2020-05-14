@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&family=Nunito+Sans:300,400&display=swap"
           />
-          <title>Dock VCDM Verifier</title>
+          <title>W3C Credential Verifier</title>
         </Head>
         <body>
           <Main />
