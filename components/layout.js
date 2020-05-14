@@ -1,43 +1,39 @@
-import React, {useState, useEffect} from 'react';
-import Link from 'next/link';
+import React from 'react';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import Avatar from '@material-ui/core/Avatar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import DoneIcon from '@material-ui/icons/Done';
+import { Toolbar, AppBar, IconButton } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 
 import dockLogo from '../assets/logo.svg';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
   logo: {
-    marginTop: '10px'
+    marginTop: '10px',
   },
   appBar: {
     height: '70px',
     boxShadow: '0 3px 12px -3px rgba(0, 0, 0, 0.09)',
+  },
+  nav: {
+    marginLeft: 'auto',
+  },
+  navItem: {
+    padding: '20px',
+    fontFamily: "'Nunito Sans', sans-serif",
+    fontSize: 18,
+    fontWeight: 400,
+    lineHeight: '26px',
+    letterSpacing: '0.2px',
+    color: '#435665',
+    '&:hover': {
+      color: '#2887de'
+    }
   },
   menuButton: {
     marginLeft: 'auto',
@@ -54,9 +50,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Layout({children, darkMode, toggleDarkMode}) {
+export default function Layout({ children, darkMode, toggleDarkMode }) {
   const classes = useStyles();
-  const theme = useTheme();
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -66,7 +61,7 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
             <img src={dockLogo} className={classes.logo} />
           </a>
 
-          <IconButton
+          {/*<IconButton
             color="inherit"
             aria-label="toggle dark mode"
             onClick={toggleDarkMode}
@@ -78,7 +73,48 @@ export default function Layout({children, darkMode, toggleDarkMode}) {
             ) : (
               <Brightness4Icon />
             )}
-          </IconButton>
+          </IconButton>*/}
+
+          <nav className={clsx(classes.nav)}>
+            <a href="https://www.dock.io/#Features"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={clsx(classes.navItem)}>
+              Features
+            </a>
+            <a href="https://www.dock.io/#Getting-started"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={clsx(classes.navItem)}>
+              Getting Started
+            </a>
+            <a href="https://www.dock.io/docs"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={clsx(classes.navItem)}>
+              Docs
+            </a>
+            <a href="https://www.dock.io/case-study-verifiable"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={clsx(classes.navItem)}>
+              Case Study
+            </a>
+            <a href="https://blog.dock.io/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={clsx(classes.navItem)}>
+              Blog
+            </a>
+            <a href="https://www.dock.io/contact"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={clsx(classes.navItem, {
+                [classes.navItemEnd]: true,
+              })}>
+              Contact
+            </a>
+          </nav>
         </Toolbar>
       </AppBar>
       <main className={clsx(classes.content)}>

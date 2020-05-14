@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { DropzoneArea } from 'material-ui-dropzone';
 
-import VerifiableCredential from '@docknetwork/sdk/verifiable-credential';
-import VerifierModal from '../components/verifier-modal';
-import Button from "@material-ui/core/Button";
-import Drawer from "@material-ui/core/Drawer";
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
 import Container from '@material-ui/core/Container';
-import fetch from "isomorphic-unfetch";
+import fetch from 'isomorphic-unfetch';
+import VerifierModal from '../components/verifier-modal';
 
 const drawerWidth = 400;
 
@@ -43,14 +42,14 @@ const useStyles = makeStyles((theme) => ({
     border: 0,
     borderRadius: 3,
     margin: '20px 0 0 0',
-    color: 'black'
+    color: 'black',
   },
   dropzoneText: {
     padding: '2.5% 5%',
-    fontSize: 12
+    fontSize: 12,
   },
   submitButton: {
-    float: 'right'
+    float: 'right',
   },
   drawer: {
     maxWidth: drawerWidth,
@@ -68,12 +67,12 @@ const useStyles = makeStyles((theme) => ({
  * @param string - String to test
  * @returns {boolean} - Whether the given string is a valid URI or not.
  */
-function isUri(string){
-  if (!isString(string)){
-    return false
+function isUri(string) {
+  if (!isString(string)) {
+    return false;
   }
   const pattern = new RegExp('^\\w+:\\/?\\/?[^\\s]+$');
-  return pattern.test(string)
+  return pattern.test(string);
 }
 
 /**
@@ -91,10 +90,10 @@ const Index = () => {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({
     json: null,
-    text: ''
+    text: '',
   });
 
-  const handleChange = async event => {
+  const handleChange = async (event) => {
     let parsedJSON;
     const text = event.target.value;
     if (text) {
@@ -185,12 +184,11 @@ const Index = () => {
                 dropzoneText={DropzoneContent}
                 dropzoneParagraphClass={classes.dropzoneText}
                 onDrop={async ([file]) => {
-                  var reader = new FileReader();
-                  reader.onload = function(e) {
-                    var contents = JSON.parse(e.target.result);
-                    console.log(contents);
-                    setState({json: contents, text: JSON.stringify(contents, null, 2)});
-                    handleVerify(e)
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    const contents = JSON.parse(e.target.result);
+                    setState({ json: contents, text: JSON.stringify(contents, null, 2) });
+                    handleVerify(e);
                   };
                   reader.readAsText(file);
                 }}
@@ -222,7 +220,7 @@ const Index = () => {
           paper: classes.drawerPaper,
         }}
       >
-        <VerifierModal {...{handleClose, credential: open && state.json}} />
+        <VerifierModal {...{ handleClose, credential: open && state.json }} />
       </Drawer>
     </>
   );

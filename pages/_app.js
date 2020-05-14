@@ -1,30 +1,27 @@
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { PageTransition } from 'next-page-transitions';
 import React, { useState, useMemo } from 'react';
 import App from 'next/app';
-import {PageTransition} from 'next-page-transitions';
 import 'normalize.css';
-
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import Layout from '../components/layout';
 
 const TIMEOUT = 250;
 
-const AppWrapper = ({children}) => {
+const AppWrapper = ({ children }) => {
   const [prefersDarkMode, setDarkMode] = useState(false);
-
   const theme = useMemo(
     () => {
       const palette = {
         type: prefersDarkMode ? 'dark' : 'light',
         primary: {
-          main: '#2074bd'
+          main: '#2074bd',
         },
       };
 
       if (!prefersDarkMode) {
         palette.background = {
-          default: '#f9fafb'
+          default: '#f9fafb',
         };
       }
 
@@ -33,7 +30,7 @@ const AppWrapper = ({children}) => {
       };
 
       const typography = {
-        fontFamily: "Montserrat, sans-serif",
+        fontFamily: 'Montserrat, sans-serif',
         fontSize: 14,
         fontWeightLight: 300,
         fontWeightRegular: 400,
@@ -55,8 +52,8 @@ const AppWrapper = ({children}) => {
         h1: {
           fontSize: 60,
           fontWeight: 700,
-          lineHeight: '60px'
-        }
+          lineHeight: '60px',
+        },
       };
 
       return createMuiTheme({
@@ -90,12 +87,8 @@ const AppWrapper = ({children}) => {
 };
 
 class MyApp extends App {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const {Component, pageProps} = this.props;
+    const { Component, pageProps } = this.props;
     return (
       <>
         <AppWrapper>

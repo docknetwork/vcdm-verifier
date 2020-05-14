@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -12,12 +12,12 @@ import {
   Box,
   Paper,
   Typography,
-  Button
+  Button,
 } from '@material-ui/core';
 
 // Import Dock SDK utils
 import { UniversalResolver } from '@docknetwork/sdk/resolver';
-import { verifyCredential } from "@docknetwork/sdk/utils/vc";
+import { verifyCredential } from '@docknetwork/sdk/utils/vc';
 
 // Use universal resolver
 const universalResolverUrl = 'https://uniresolver.io';
@@ -29,9 +29,8 @@ async function verifyJSONObject(credential) {
   const verifyResult = await verifyCredential(credential, resolver, true, true, { dock: null });
   if (verifyResult.verified) {
     return verifyResult;
-  } else {
-    throw verifyResult.error.errors;
   }
+  throw verifyResult.error.errors;
 }
 
 function getSubjectString(credential) {
@@ -49,7 +48,7 @@ function getSubjectString(credential) {
   return subject;
 }
 
-const VerifierModal = ({credential, handleClose}) => {
+const VerifierModal = ({ credential, handleClose }) => {
   const [isVerified, setIsVerified] = useState();
   const [verificationErrors, setVerificationErrors] = useState();
 
@@ -58,7 +57,7 @@ const VerifierModal = ({credential, handleClose}) => {
       await verifyJSONObject(credential);
       setIsVerified(true);
     } catch (errors) {
-      console.error('Verification failed: ', errors)
+      console.error('Verification failed: ', errors);
       setVerificationErrors(errors.length ? errors : [errors]);
       setIsVerified(false);
     }
@@ -111,7 +110,7 @@ const VerifierModal = ({credential, handleClose}) => {
             )}
 
             <Typography variant="body2" noWrap gutterBottom>
-              Expiration date: {credential.expirationDate || "N/A"}
+              Expiration date: {credential.expirationDate || 'N/A'}
             </Typography>
 
             <br />
@@ -126,19 +125,19 @@ const VerifierModal = ({credential, handleClose}) => {
                   <CheckCircleIcon color="primary" style={{
                     width: '54px',
                     height: '54px',
-                    transform: 'translate(-5px, 0)'
+                    transform: 'translate(-5px, 0)',
                   }} />
                 ) : (
                   isVerified === false ? (
                     <ErrorIcon color="error" style={{
                       width: '54px',
                       height: '54px',
-                      transform: 'translate(-5px, 0)'
+                      transform: 'translate(-5px, 0)',
                     }} />
                   ) : (
                     <div style={{
                       paddingBottom: '5px',
-                      paddingTop: '4px'
+                      paddingTop: '4px',
                     }}>
                       <CircularProgress thickness={4} size={45} />
                     </div>
@@ -167,7 +166,7 @@ const VerifierModal = ({credential, handleClose}) => {
             <br />
 
             {isVerified === false && (
-              verificationErrors.map(error => (
+              verificationErrors.map((error) => (
                 <Box
                   bgcolor="error.light"
                   color="error.dark"
@@ -178,7 +177,7 @@ const VerifierModal = ({credential, handleClose}) => {
                     gutterBottom
                     style={{
                       whiteSpace: 'pre-wrap',
-                      wordWrap: 'break-word'
+                      wordWrap: 'break-word',
                     }}>
                     {error.stack || error.name}
                   </Typography>
@@ -188,7 +187,7 @@ const VerifierModal = ({credential, handleClose}) => {
           </Box>
           {isVerified && (
             <Box p={3} style={{
-              marginTop: 'auto'
+              marginTop: 'auto',
             }}>
               <Button
                 endIcon={<ArrowForwardIcon />}
