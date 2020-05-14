@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: drawerWidth,
   },
+  bottomLink: {
+    color: '#2887de'
+  }
 }));
 
 /**
@@ -209,6 +212,24 @@ const Index = () => {
               Verify
             </Button>
           </form>
+        </Container>
+
+        <br /><br />
+
+        <Container maxWidth="md">
+          <center>
+            <br />
+            <Typography variant="body2">
+              This verifier is open source and&nbsp;
+              <a href="https://github.com/docknetwork/vcdm-verifier"
+                target="_blank"
+                rel="noreferrer noopener"
+                className={classes.bottomLink}>
+                hosted at GitHub
+              </a>.
+            </Typography>
+            <br />
+          </center>
         </Container>
       </div>
       <Drawer
