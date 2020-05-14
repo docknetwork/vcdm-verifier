@@ -15,17 +15,18 @@ import {
   Button
 } from '@material-ui/core';
 
-import dock from '@docknetwork/sdk';
+// Import Dock SDK utils
 import { UniversalResolver } from '@docknetwork/sdk/resolver';
-import {verifyCredential} from "@docknetwork/sdk/utils/vc";
+import { verifyCredential } from "@docknetwork/sdk/utils/vc";
 
 // Use universal resolver
 const universalResolverUrl = 'https://uniresolver.io';
 const resolver = new UniversalResolver(universalResolverUrl);
 
-async function signAndVerify(credential) {
-  const verifyResult = await verifyCredential(credential, resolver, true, true, { dock });
-  console.log('verifyResult', verifyResult)
+async function verifyJSONObject(credential) {
+  // TODO: FIX: Credentials requiring revocation will fail verification
+  // dock SDK is not initialized so cannot be passed for querying the chain
+  const verifyResult = await verifyCredential(credential, resolver, true, true, { dock: null });
   if (verifyResult.verified) {
     return verifyResult;
   } else {
@@ -33,7 +34,7 @@ async function signAndVerify(credential) {
   }
 }
 
-function getSubject(credential) {
+function getSubjectString(credential) {
   let subject = 'No Subject';
 
   if (credential.credentialSubject) {
@@ -53,9 +54,8 @@ const VerifierModal = ({credential, handleClose}) => {
   const [verificationErrors, setVerificationErrors] = useState();
 
   async function startVerification(credential) {
-   console.log('startVerification', credential);
     try {
-      await signAndVerify(credential);
+      await verifyJSONObject(credential);
       setIsVerified(true);
     } catch (errors) {
       console.error('Verification failed: ', errors)
@@ -78,7 +78,7 @@ const VerifierModal = ({credential, handleClose}) => {
         <>
           <Box p={3} bgcolor={false ? 'success.main' : 'background.default'}>
             <Typography variant="h6" gutterBottom>
-              {getSubject(credential)}
+              {getSubjectString(credential)}
             </Typography>
             <Typography noWrap variant="subtitle1">
               Issued to {credential.credentialSubject && credential.credentialSubject.id}
