@@ -174,7 +174,7 @@ const Index = () => {
         <Container maxWidth="md">
           <center>
             <Typography variant="h1" gutterBottom>
-              Universal VCDM Verifier
+              W3C Credential Verifier
             </Typography>
           </center>
 
