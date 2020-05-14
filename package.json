@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/docknetwork/issuing-verification-app.git"
+    "url": "git+https://github.com/docknetwork/vcdm-verifier.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/docknetwork/issuing-verification-app/issues"
+    "url": "https://github.com/docknetwork/vcdm-verifier/issues"
   },
-  "homepage": "https://github.com/docknetwork/issuing-verification-app#readme",
+  "homepage": "https://github.com/docknetwork/vcdm-verifier#readme",
   "dependencies": {
     "@docknetwork/sdk": "^0.0.6",
     "@material-ui/core": "^4.9.0",
