@@ -11,6 +11,11 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Nunito+Sans:wght@300;400&display=swap"
           />
+          <link
+            href="https://uploads-ssl.webflow.com/5e97941735e37a5ef19d10aa/5e9bf099572a496593d067a8_favicon-32x32.png"
+            rel="shortcut icon"
+            type="image/x-icon"
+          />
           <title>W3C Credential Verifier</title>
         </Head>
         <body>
