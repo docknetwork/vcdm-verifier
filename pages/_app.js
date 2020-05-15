@@ -29,6 +29,7 @@ const AppWrapper = ({ children }) => {
         fontFamily: "'Nunito Sans', sans-serif",
       };
 
+      const defaultTheme = createMuiTheme();
       const typography = {
         fontFamily: 'Montserrat, sans-serif',
         fontSize: 14,
@@ -51,8 +52,12 @@ const AppWrapper = ({ children }) => {
         },
         h1: {
           fontSize: 60,
-          fontWeight: 700,
           lineHeight: '60px',
+          fontWeight: 700,
+          [defaultTheme.breakpoints.down('sm')]: {
+            fontSize: 50,
+            lineHeight: '50px',
+          }
         },
       };
 

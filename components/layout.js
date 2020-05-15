@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
   },
   logo: {
-    marginTop: '10px',
+    marginTop: '12px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '17px',
+    }
   },
   appBar: {
     height: '70px',
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   nav: {
     marginLeft: 'auto',
+    marginTop: '2px',
     [theme.breakpoints.down('sm')]: {
       display: 'none'
     }
