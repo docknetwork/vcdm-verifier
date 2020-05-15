@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
   nav: {
     marginLeft: 'auto',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   },
   navItem: {
     padding: '20px',
@@ -61,16 +64,27 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     padding: '61px 10px',
     justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      padding: '61px 20px',
+    }
   },
   footerDivBlock16: {
     display: 'flex',
     width: '160px',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '0',
+      marginBottom: '26px'
+    }
   },
   footerDivBlock14: {
     order: 0,
     flex: 1,
     display: 'flex',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column'
+    }
   },
   footerDivBlock15: {
     display: 'flex',
@@ -78,6 +92,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'stretch',
     alignSelf: 'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      marginTop: '5px'
+    }
   },
   iconContainer: {
     display: 'flex',
@@ -104,8 +122,15 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.2px',
     marginLeft: '52px',
     '&:first-child': {
-      marginLeft: '37px'
+      marginLeft: '37px',
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '0',
+      }
     },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '0',
+      marginBottom: '19px'
+    }
   },
   footerLink: {
     color: '#c5c5c5',
