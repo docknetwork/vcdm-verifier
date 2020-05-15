@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginRight: 0,
     paddingTop: '100px',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '0',
+      paddingRight: '0',
+    }
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
