@@ -1,4 +1,4 @@
-# Example Implementation of issuing and verification of VCDM credentials with the Dock SDK
+# Example Implementation of issuing and verification of VCDM compliant credentials with the Dock SDK
 
 Not complete and may break easily as the SDK develops: https://github.com/docknetwork/sdk
 
