@@ -1,6 +1,8 @@
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { PageTransition } from 'next-page-transitions';
 import React, { useState, useMemo } from 'react';
+import withGA from 'next-ga';
+import Router from 'next/router';
 import App from 'next/app';
 import 'normalize.css';
 
@@ -146,4 +148,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default withGA('UA-110316080-1', Router)(MyApp);
