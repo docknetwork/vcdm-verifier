@@ -18,15 +18,37 @@ import {
 // Import Dock SDK utils
 import { UniversalResolver } from '@docknetwork/sdk/resolver';
 import { verifyCredential } from '@docknetwork/sdk/utils/vc';
+import dock from '@docknetwork/sdk';
 
 // Use universal resolver
 const universalResolverUrl = 'https://uniresolver.io';
 const resolver = new UniversalResolver(universalResolverUrl);
 
+// Hardcoded testnet node address for now, but provide config options later
+const nodeAddress = 'wss://testnet-node.dock.io:9950'; // ws://localhost:9944
+
 async function verifyJSONObject(credential) {
-  // TODO: FIX: Credentials requiring revocation will fail verification
-  // dock SDK is not initialized so cannot be passed for querying the chain
-  const verifyResult = await verifyCredential(credential, resolver, true, true, { dock: null });
+  // Ensure we are connected to the node
+  // if we cant connect, try verify anyway
+  // not all credentials need a node connection to verify
+  try {
+    await dock.init({
+      address: nodeAddress
+    });
+  } catch (e) {
+    console.error('Connecting to node failed', e);
+  }
+
+  const verifyResult = await verifyCredential(credential, {
+    resolver,
+    compactProof: true,
+    forceRevocationCheck: true,
+    schemaApi: { dock },
+    revocationApi: { dock }
+  });
+
+  await dock.disconnect();
+
   if (verifyResult.verified) {
     return verifyResult;
   }
