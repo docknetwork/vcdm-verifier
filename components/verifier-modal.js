@@ -64,6 +64,9 @@ function getSubjectString(credential) {
 
     if (subjectKeys.length) {
       subject = credential.credentialSubject[subjectKeys[0]];
+      if (subject !== 'string') {
+        subject = subject.name || JSON.stringify(subject);
+      }
     }
   }
 
