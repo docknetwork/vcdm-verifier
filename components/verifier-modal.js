@@ -25,7 +25,7 @@ const universalResolverUrl = 'https://uniresolver.io';
 const resolver = new UniversalResolver(universalResolverUrl);
 
 // Hardcoded testnet node address for now, but provide config options later
-const nodeAddress = 'wss://testnet-node.dock.io:9950'; // ws://localhost:9944
+const nodeAddress = 'wss://danforth-1.dock.io'; // ws://localhost:9944
 
 async function verifyJSONObject(credential) {
   // Ensure we are connected to the node
