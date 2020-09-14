@@ -16,13 +16,15 @@ import {
 } from '@material-ui/core';
 
 // Import Dock SDK utils
-import { UniversalResolver } from '@docknetwork/sdk/resolver';
+import { DockResolver, MultiResolver, UniversalResolver } from '@docknetwork/sdk/resolver';
 import { verifyCredential } from '@docknetwork/sdk/utils/vc';
 import dock from '@docknetwork/sdk';
 
-// Use universal resolver
+// Create the resolver
 const universalResolverUrl = 'https://uniresolver.io';
-const resolver = new UniversalResolver(universalResolverUrl);
+const resolver = new MultiResolver({
+  dock: new DockResolver(dock), // Prebuilt resolver
+}, new UniversalResolver(universalResolverUrl));
 
 // Hardcoded testnet node address for now, but provide config options later
 const nodeAddress = 'wss://danforth-1.dock.io'; // ws://localhost:9944
