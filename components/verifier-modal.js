@@ -113,7 +113,7 @@ const VerifierModal = ({ credential, handleClose }) => {
           <Box p={3}>
             {credential.issuer && (
               <Typography variant="body2" noWrap gutterBottom>
-                Issuer: {credential.issuer}
+                Issuer: {JSON.stringify(credential.issuer)}
               </Typography>
             )}
 
