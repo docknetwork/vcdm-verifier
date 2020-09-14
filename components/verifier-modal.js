@@ -191,11 +191,12 @@ const VerifierModal = ({ credential, handleClose }) => {
             <br />
 
             {isVerified === false && (
-              verificationErrors.map((error) => (
+              verificationErrors.map((error, index) => (
                 <Box
                   bgcolor="error.light"
                   color="error.dark"
-                  p={2}>
+                  p={2}
+                  key={index}>
                   <Typography
                     component="pre"
                     variant="body2"
