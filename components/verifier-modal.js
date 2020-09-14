@@ -52,8 +52,6 @@ async function verifyJSONObject(credential) {
     revocationApi: { dock }
   });
 
-  await dock.disconnect();
-
   if (verifyResult.verified) {
     return verifyResult;
   }
