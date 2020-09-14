@@ -34,9 +34,12 @@ async function verifyJSONObject(credential) {
   // if we cant connect, try verify anyway
   // not all credentials need a node connection to verify
   try {
-    await dock.init({
-      address: nodeAddress
-    });
+    if (!dock.api || !dock.api.isConnected) {
+      delete dock.api;
+      await dock.init({
+        address: nodeAddress
+      });
+    }
   } catch (e) {
     console.error('Connecting to node failed', e);
   }
