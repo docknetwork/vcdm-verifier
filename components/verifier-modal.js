@@ -17,7 +17,7 @@ import {
 
 // Import Dock SDK utils
 import { DockResolver, MultiResolver, UniversalResolver } from '@docknetwork/sdk/resolver';
-import { verifyCredential } from '@docknetwork/sdk/utils/vc';
+import { verifyCredential, verifyPresentation } from '@docknetwork/sdk/utils/vc';
 import dock from '@docknetwork/sdk';
 
 // Create the resolver
@@ -29,7 +29,7 @@ const resolver = new MultiResolver({
 // Hardcoded testnet node address for now, but provide config options later
 const nodeAddress = 'wss://danforth-1.dock.io'; // ws://localhost:9944
 
-async function verifyJSONObject(credential) {
+async function verifyJSONObject(json) {
   // Ensure we are connected to the node
   // if we cant connect, try verify anyway
   // not all credentials need a node connection to verify
@@ -44,18 +44,34 @@ async function verifyJSONObject(credential) {
     console.error('Connecting to node failed', e);
   }
 
-  const verifyResult = await verifyCredential(credential, {
+  let verifyResult;
+  const verifyParams = {
     resolver,
     compactProof: true,
     forceRevocationCheck: true,
     schemaApi: { dock },
     revocationApi: { dock }
-  });
+  };
+
+  if (json.verifiableCredential) {
+    const { challenge, domain } = json.proof;
+    verifyResult = await verifyPresentation(json, {
+      ...verifyParams,
+      challenge,
+      domain,
+    });
+  } else {
+    verifyResult = await verifyCredential(json, verifyParams);
+  }
+
+  if (!verifyResult) {
+    throw new Error(`No presentation or credential provided`);
+  }
 
   if (verifyResult.verified) {
     return verifyResult;
   }
-  throw verifyResult.error.errors;
+  throw verifyResult.error.errors || verifyResult.error;
 }
 
 function getSubjectString(credential) {
@@ -86,7 +102,9 @@ const VerifierModal = ({ credential, handleClose }) => {
       setIsVerified(true);
     } catch (errors) {
       console.error('Verification failed: ', errors);
-      setVerificationErrors(errors.length ? errors : [errors]);
+      if (errors) {
+        setVerificationErrors(errors.length ? errors : [errors]);
+      }
       setIsVerified(false);
     }
   }
@@ -99,17 +117,21 @@ const VerifierModal = ({ credential, handleClose }) => {
     }
   }, [credential]);
 
+  const isPresentation = true;
+
   return (
     <>
       {credential && (
         <>
           <Box p={3} bgcolor={false ? 'success.main' : 'background.default'}>
             <Typography variant="h6" gutterBottom>
-              {getSubjectString(credential)}
+              {isPresentation ? 'Presentation' : getSubjectString(credential)}
             </Typography>
-            <Typography noWrap variant="subtitle1">
-              Issued to {credential.credentialSubject && credential.credentialSubject.id}
-            </Typography>
+            {!isPresentation && (
+              <Typography noWrap variant="subtitle1">
+                Issued to {credential.credentialSubject && credential.credentialSubject.id}
+              </Typography>
+            )}
           </Box>
           <Box p={3}>
             {credential.issuer && (
@@ -137,9 +159,12 @@ const VerifierModal = ({ credential, handleClose }) => {
               </Typography>
             )}
 
-            <Typography variant="body2" noWrap gutterBottom>
-              Expiration date: {credential.expirationDate || 'N/A'}
-            </Typography>
+
+            {credential.expirationDate && (
+              <Typography variant="body2" noWrap gutterBottom>
+                Expiration date: {credential.expirationDate}
+              </Typography>
+            )}
 
             <br />
 

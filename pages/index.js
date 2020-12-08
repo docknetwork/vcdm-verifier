@@ -163,7 +163,7 @@ const Index = () => {
         rows={1}
         value={state.text}
         className={classes.textInput}
-        label="Credential URL or JSON"
+        label="Credential/Presentation URL or JSON"
         placeholder="{ ... }"
         variant="filled"
       />
