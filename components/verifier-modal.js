@@ -76,16 +76,21 @@ async function verifyJSONObject(json) {
 
 function getSubjectString(credential) {
   let subject = 'No Subject';
+  let credentialSubject = credential.credentialSubject && (
+    credential.credentialSubject.length ? credential.credentialSubject[0] : credential.credentialSubject
+  );
 
-  if (credential.credentialSubject) {
-    const subjectKeys = Object.keys(credential.credentialSubject);
+  if (credentialSubject) {
+    const subjectKeys = Object.keys(credentialSubject);
     subjectKeys.splice(subjectKeys.indexOf('id'), 1);
 
     if (subjectKeys.length) {
-      subject = credential.credentialSubject[subjectKeys[0]];
+      subject = credentialSubject[subjectKeys[0]];
       if (subject !== 'string') {
         subject = subject.name || JSON.stringify(subject);
       }
+    } else if (credentialSubject.id) {
+      subject = credentialSubject.id;
     }
   }
 
@@ -117,8 +122,7 @@ const VerifierModal = ({ credential, handleClose }) => {
     }
   }, [credential]);
 
-  const isPresentation = true;
-
+  const isPresentation = credential && credential.verifiableCredential;
   return (
     <>
       {credential && (
@@ -127,7 +131,7 @@ const VerifierModal = ({ credential, handleClose }) => {
             <Typography variant="h6" gutterBottom>
               {isPresentation ? 'Presentation' : getSubjectString(credential)}
             </Typography>
-            {!isPresentation && (
+            {!isPresentation && credential.credentialSubject && credential.credentialSubject.id && (
               <Typography noWrap variant="subtitle1">
                 Issued to {credential.credentialSubject && credential.credentialSubject.id}
               </Typography>

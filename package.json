@@ -24,29 +24,28 @@
   "homepage": "https://github.com/docknetwork/vcdm-verifier#readme",
   "dependencies": {
     "@docknetwork/sdk": "^0.4.6",
-    "@material-ui/core": "^4.9.0",
-    "@material-ui/icons": "^4.5.1",
-    "@material-ui/lab": "^4.0.0-alpha.42",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@svgr/webpack": "^5.5.0",
-    "clsx": "^1.0.4",
-    "isomorphic-unfetch": "^3.0.0",
-    "material-ui-dropzone": "^3.0.0",
-    "next": "^10.2.0",
+    "clsx": "^1.1.1",
+    "isomorphic-unfetch": "^3.1.0",
+    "material-ui-dropzone": "^3.5.0",
+    "next": "^11.0.1",
     "next-ga": "^2.3.4",
-    "next-images": "^1.4.0",
     "next-page-transitions": "^1.0.0-beta.2",
     "normalize.css": "^8.0.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "rxjs": "^6.5.4"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rxjs": "^7.1.0"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.10.7",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.8.2",
-    "eslint-plugin-react": "^7.20.0",
-    "gh-pages": "^2.2.0"
+    "babel-plugin-styled-components": "^1.12.0",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-react": "^7.24.0",
+    "gh-pages": "^3.2.3"
   }
 }
