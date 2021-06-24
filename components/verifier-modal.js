@@ -27,7 +27,7 @@ const resolver = new MultiResolver({
 }, new UniversalResolver(universalResolverUrl));
 
 // Hardcoded testnet node address for now, but provide config options later
-const nodeAddress = 'wss://danforth-1.dock.io'; // ws://localhost:9944
+const nodeAddress = 'wss://mainnet-node.dock.io'; // ws://localhost:9944
 
 async function verifyJSONObject(json) {
   // Ensure we are connected to the node
