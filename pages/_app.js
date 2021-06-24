@@ -59,7 +59,7 @@ const AppWrapper = ({ children }) => {
           [defaultTheme.breakpoints.down('sm')]: {
             fontSize: 50,
             lineHeight: '50px',
-          }
+          },
         },
       };
 

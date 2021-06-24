@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '12px',
     [theme.breakpoints.down('sm')]: {
       marginTop: '17px',
-    }
+    },
   },
   appBar: {
     height: '70px',
@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     marginTop: '2px',
     [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   navItem: {
     padding: '20px',
@@ -71,15 +71,15 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       padding: '61px 20px',
-    }
+    },
   },
   footerDivBlock16: {
     display: 'flex',
     width: '160px',
     [theme.breakpoints.down('sm')]: {
       marginLeft: '0',
-      marginBottom: '26px'
-    }
+      marginBottom: '26px',
+    },
   },
   footerDivBlock14: {
     order: 0,
@@ -87,8 +87,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'flex-start',
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column'
-    }
+      flexDirection: 'column',
+    },
   },
   footerDivBlock15: {
     display: 'flex',
@@ -98,8 +98,8 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: 'flex-start',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
-      marginTop: '5px'
-    }
+      marginTop: '5px',
+    },
   },
   iconContainer: {
     display: 'flex',
@@ -129,12 +129,12 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: '37px',
       [theme.breakpoints.down('sm')]: {
         marginLeft: '0',
-      }
+      },
     },
     [theme.breakpoints.down('sm')]: {
       marginLeft: '0',
-      marginBottom: '19px'
-    }
+      marginBottom: '19px',
+    },
   },
   footerLink: {
     color: '#c5c5c5',
@@ -142,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: '#ffffff',
     },
-  }
+  },
 }));
 
 export default function Layout({ children, darkMode, toggleDarkMode }) {

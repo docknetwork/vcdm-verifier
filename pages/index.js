@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '0',
       paddingRight: '0',
-    }
+    },
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -65,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: drawerWidth,
   },
   bottomLink: {
-    color: '#2887de'
-  }
+    color: '#2887de',
+  },
 }));
 
 /**
@@ -90,7 +90,6 @@ function isUri(string) {
 export function isString(value) {
   return typeof value === 'string' || value instanceof String;
 }
-
 
 const Index = () => {
   const classes = useStyles();

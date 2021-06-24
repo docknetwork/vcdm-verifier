@@ -37,7 +37,7 @@ async function verifyJSONObject(json) {
     if (!dock.api || !dock.api.isConnected) {
       delete dock.api;
       await dock.init({
-        address: nodeAddress
+        address: nodeAddress,
       });
     }
   } catch (e) {
@@ -50,7 +50,7 @@ async function verifyJSONObject(json) {
     compactProof: true,
     forceRevocationCheck: true,
     schemaApi: { dock },
-    revocationApi: { dock }
+    revocationApi: { dock },
   };
 
   if (json.verifiableCredential) {
@@ -65,7 +65,7 @@ async function verifyJSONObject(json) {
   }
 
   if (!verifyResult) {
-    throw new Error(`No presentation or credential provided`);
+    throw new Error('No presentation or credential provided');
   }
 
   if (verifyResult.verified) {
@@ -76,7 +76,7 @@ async function verifyJSONObject(json) {
 
 function getSubjectString(credential) {
   let subject = 'No Subject';
-  let credentialSubject = credential.credentialSubject && (
+  const credentialSubject = credential.credentialSubject && (
     credential.credentialSubject.length ? credential.credentialSubject[0] : credential.credentialSubject
   );
 
@@ -162,7 +162,6 @@ const VerifierModal = ({ credential, handleClose }) => {
                 Issue date: {credential.issuanceDate}
               </Typography>
             )}
-
 
             {credential.expirationDate && (
               <Typography variant="body2" noWrap gutterBottom>
