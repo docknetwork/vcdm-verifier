@@ -185,24 +185,24 @@ const Index = () => {
 
           <form onSubmit={handleVerify}>
             <DropzoneArea
-               acceptedFiles={['application/json']}
-                filesLimit={1}
-                dropzoneText={DropzoneContent}
-                dropzoneParagraphClass={classes.dropzoneText}
-                onDrop={async ([file]) => {
-                  const reader = new FileReader();
-                  reader.onload = (e) => {
-                    const contents = JSON.parse(e.target.result);
-                    setState({ json: contents, text: JSON.stringify(contents, null, 2) });
-                    handleVerify(e);
-                  };
-                  reader.readAsText(file);
-                }}
-                showPreviews={false}
-                showPreviewsInDropzone={false}
-                showAlerts={true}
-                rows={1}
-                dropzoneClass={classes.dropzone}
+              acceptedFiles={['application/json']}
+              filesLimit={1}
+              dropzoneText={DropzoneContent}
+              dropzoneParagraphClass={classes.dropzoneText}
+              onDrop={async ([file]) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const contents = JSON.parse(e.target.result);
+                  setState({ json: contents, text: JSON.stringify(contents, null, 2) });
+                  handleVerify(e);
+                };
+                reader.readAsText(file);
+              }}
+              showPreviews={false}
+              showPreviewsInDropzone={false}
+              showAlerts={true}
+              rows={1}
+              dropzoneClass={classes.dropzone}
             />
             <br />
             <Button
