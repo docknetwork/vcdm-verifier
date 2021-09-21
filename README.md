@@ -1,10 +1,11 @@
-# Example Implementation of issuing and verification of VCDM compliant credentials with the Dock SDK
-
-Not complete and may break easily as the SDK develops: https://github.com/docknetwork/sdk
+# Example Implementation of verification of VCDM compliant credentials with the Dock API
+# NOTE: Only credentials created via the API will be successfully verified
 
 ### Setup
 
-Install Node and Yarn for the frontend, start a dock-substrate node. Run `yarn` command to setup packages.
+Install Node and Yarn for the frontend. Run `yarn` command to setup packages.
+
+Copy `env.example` to `.env` and set the `API_KEY` and `API_URL` values.
 
 Running the frontend in development mode:
 
@@ -18,11 +19,6 @@ yarn build
 yarn start
 ```
 
-### Requires dock substrate node
-Download and compile: https://github.com/docknetwork/dock-substrate
-
 ### GH Pages
 - Run `yarn deploy` to deploy to GitHub pages
 
-### Future Expansion
-Would be great to migrate this project to React native and provide native mobile examples of SDK usage.

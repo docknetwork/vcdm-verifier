@@ -1,11 +1,11 @@
 import React from 'react';
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <link
             rel="stylesheet"
@@ -16,13 +16,12 @@ export default class MyDocument extends Document {
             rel="shortcut icon"
             type="image/x-icon"
           />
-          <title>W3C Credential Verifier</title>
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

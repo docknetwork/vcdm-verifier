@@ -1,77 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
+import axios from 'axios';
 
 import {
-  Icon,
   CircularProgress,
   Grid,
   Box,
-  Paper,
   Typography,
   Button,
 } from '@material-ui/core';
 
-// Import Dock SDK utils
-import { DockResolver, MultiResolver, UniversalResolver } from '@docknetwork/sdk/resolver';
-import { verifyCredential, verifyPresentation } from '@docknetwork/sdk/utils/vc';
-import dock from '@docknetwork/sdk';
-
-// Create the resolver
-const universalResolverUrl = 'https://uniresolver.io';
-const resolver = new MultiResolver({
-  dock: new DockResolver(dock), // Prebuilt resolver
-}, new UniversalResolver(universalResolverUrl));
-
-// Hardcoded testnet node address for now, but provide config options later
-const nodeAddress = 'wss://mainnet-node.dock.io'; // ws://localhost:9944
 
 async function verifyJSONObject(json) {
-  // Ensure we are connected to the node
-  // if we cant connect, try verify anyway
-  // not all credentials need a node connection to verify
-  try {
-    if (!dock.api || !dock.api.isConnected) {
-      delete dock.api;
-      await dock.init({
-        address: nodeAddress,
-      });
-    }
-  } catch (e) {
-    console.error('Connecting to node failed', e);
-  }
-
-  let verifyResult;
-  const verifyParams = {
-    resolver,
-    compactProof: true,
-    forceRevocationCheck: true,
-    schemaApi: { dock },
-    revocationApi: { dock },
-  };
-
-  if (json.verifiableCredential) {
-    const { challenge, domain } = json.proof;
-    verifyResult = await verifyPresentation(json, {
-      ...verifyParams,
-      challenge,
-      domain,
-    });
-  } else {
-    verifyResult = await verifyCredential(json, verifyParams);
-  }
+  const verifyResult = await axios.post(`api/verify/`, json);
 
   if (!verifyResult) {
     throw new Error('No presentation or credential provided');
   }
 
-  if (verifyResult.verified) {
+  const { verified, results } = verifyResult.data;
+  if (verified) {
     return verifyResult;
   }
-  throw verifyResult.error.errors || verifyResult.error;
+
+  if (results) {
+    throw results.error || results;
+  }
+
+  throw "Invalid credential";
 }
 
 function getSubjectString(credential) {
@@ -236,7 +194,7 @@ const VerifierModal = ({ credential, handleClose }) => {
                       whiteSpace: 'pre-wrap',
                       wordWrap: 'break-word',
                     }}>
-                    {error.stack || error.name}
+                    {error.stack || error.name || error.error}
                   </Typography>
                 </Box>
               ))
