@@ -20,12 +20,13 @@ async function verifyJSONObject(json) {
     throw new Error('No presentation or credential provided');
   }
 
-  if (verifyResult.data.verified) {
+  const { verified, results } = verifyResult.data;
+  if (verified) {
     return verifyResult;
   }
 
-  if (verifyResult.data.results) {
-    throw verifyResult.data.results.error || verifyResult.data.results;
+  if (results) {
+    throw results.error || results;
   }
 
   throw "Invalid credential";
